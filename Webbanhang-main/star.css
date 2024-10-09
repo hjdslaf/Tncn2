@@ -1,0 +1,28 @@
+.product-star {
+    font-size: 24px; /* Kích thước của ngôi sao */
+    color: gold; /* Màu của ngôi sao */
+    position: absolute; /* Đặt ngôi sao ở vị trí tuyệt đối trong modal */
+    top: 10px; /* Khoảng cách từ trên */
+    right: 10px; /* Khoảng cách từ bên phải */
+    cursor: pointer; /* Đổi con trỏ khi di chuột qua */
+}
+.back-home {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.back-home:hover {
+    background-color: darkgreen; /* Màu khi di chuột qua */
+}
+
+.rating-star {
+    font-size: 24px; /* Kích thước của ngôi sao */
+    color: gold; /* Màu sắc của ngôi sao */
+    margin-right: 5px; /* Khoảng cách bên phải */
+}
