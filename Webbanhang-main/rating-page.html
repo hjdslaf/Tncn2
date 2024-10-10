@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+:root {
+    --primary-color: #D0021B; /* Màu đỏ cho nút "YÊU THÍCH" */
+    --light-gray: #ccc;
+    --star-color: gold;
+    --hover-color: orange;
+    --heading-color: #333;
+    --font-size: 16px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: var(--font-size);
+    color: var(--heading-color);
+    margin: 20px;
+    background-color: #f7f7f7; /* Màu nền sáng nhẹ */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+}
+
+h1, h2 {
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.rating-section, .reviews-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+}
+
+.star-rating {
+    direction: rtl;
+    display: inline-block;
+    font-size: 2rem;
+    color: var(--light-gray);
+    margin-bottom: 10px;
+}
+
+.star {
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.star:hover,
+.star:hover ~ .star {
+    color: var(--hover-color);
+}
+
+textarea {
+    width: 100%;
+    margin-top: 10px;
+    height: 100px;
+    padding: 10px;
+    font-size: var(--font-size);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+    background-color: darkred;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.reviews-section {
+    margin-top: 20px;
+}
+
+.review {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+}
+
+.review div {
+    margin-bottom: 5px;
+    color: var(--heading-color);
+}
+
+.product-image {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+    display: block;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+}
+
+.back-home {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.back-home:hover {
+    background-color: darkred;
+}
+
+/* Flexbox để sắp xếp các phần */
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.flex-item {
+    flex: 1;
+    padding: 0 10px;
+}
+
+.product-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.product-info h2 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.rating-and-review {
+    margin-top: 20px;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Nút về trang chủ -->
+    <a href="index.html" class="back-home">Về trang chủ</a>
+
+    
+
+    <!-- Hiển thị thông tin món ăn -->
+    <h2 id="product-title">Tên món ăn</h2>
+    <img id="product-img" class="product-image" src="" alt="Product Image">
+
+    <!-- Màn hình đánh giá -->
+    <div class="rating-section">
+        <h2>Đánh giá món ăn</h2>
+        <div class="star-rating">
+            <span class="star" data-value="5">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="1">&#9733;</span>
+        </div>
+
+        <textarea id="comment" placeholder="Viết bình luận của bạn ở đây..."></textarea>
+        <button id="upload-review">Upload</button>
+    </div>
+
+    <!-- Hiển thị đánh giá của người khác -->
+    <div class="reviews-section">
+        <h2>Đánh giá từ người khác</h2>
+        <div id="reviews-container">
+            <!-- Các 
+                 sẽ hiển thị ở đây -->
+        </div>
+    </div>
+
+    <script>
+        // Lấy danh sách sản phẩm từ localStorage
+        const products = JSON.parse(localStorage.getItem('products')) || [];
+
+        // Lấy ID món ăn từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('product');
+
+        // Tìm món ăn dựa trên ID từ URL
+        const product = products.find(p => p.id == productId);
+
+        if (product) {
+            // Hiển thị thông tin món ăn
+            document.getElementById('product-title').textContent = product.title;
+            document.getElementById('product-img').src = product.img; // Cập nhật hình ảnh
+        }
+
+        // Hiển thị đánh giá khi trang được tải
+        displayReviews();
+
+        function displayReviews() {
+    const reviewsContainer = document.getElementById('reviews-container');
+    const reviews = JSON.parse(localStorage.getItem('reviews')) || []; // Lấy danh sách đánh giá
+
+    reviewsContainer.innerHTML = ''; // Xóa nội dung cũ
+
+    reviews.forEach(review => {
+        const newReview = `
+            <div class="review">
+                <div>Đánh giá: ${'&#9733;'.repeat(review.rating)} (${review.rating} sao)</div>
+                <div>Bình luận: ${review.comment}</div>
+            </div>`;
+        reviewsContainer.innerHTML += newReview; // Thêm đánh giá vào container
+    });
+}
+window.onload = function() {
+    // Hiển thị đánh giá khi trang được tải
+    displayReviews();
+
+     // Xử lý chọn ngôi sao
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', selectStar);
+    });
+
+    function selectStar(event) {
+        const value = event.target.getAttribute('data-value');
+        document.querySelectorAll('.star').forEach(star => {
+            star.style.color = star.getAttribute('data-value') <= value ? 'var(--star-color)' : 'var(--light-gray)';
+        });
+        localStorage.setItem('selectedRating', value);
+    }
+
+    // Xử lý upload đánh giá
+    document.getElementById('upload-review').addEventListener('click', () => {
+        const comment = document.getElementById('comment').value;
+        const rating = localStorage.getItem('selectedRating') || 0;
+
+        if (rating > 0 && comment.trim() !== "") {
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || []; // Lấy danh sách đánh giá
+            reviews.push({ rating: rating, comment: comment }); // Thêm đánh giá mới vào danh sách
+
+            localStorage.setItem('reviews', JSON.stringify(reviews)); // Lưu lại vào localStorage
+
+            displayReviews(); // Hiển thị đánh giá
+
+            // Xóa bình luận và đánh giá sau khi upload
+            document.getElementById('comment').value = '';
+            localStorage.removeItem('selectedRating');
+            document.querySelectorAll('.star').forEach(star => star.style.color = 'var(--light-gray)');
+        } else {
+            alert("Hãy chọn đánh giá và viết bình luận!");
+        }
+    });
+
+}
+    </script>
+
+    <!-- Link Font Awesome để hiển thị các icon sao -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
